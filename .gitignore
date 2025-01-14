@@ -1,0 +1,8 @@
+# Azure Developer CLI
+.azure
+
+# dotenv files
+.env
+
+node_modules
+.next
