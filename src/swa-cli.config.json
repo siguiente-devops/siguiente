@@ -1,0 +1,11 @@
+{
+    "configurations": {
+      "app": {
+        "appDevserverUrl": "http://localhost:3000",
+        "appLocation": "./",
+        "apiLocation": "",
+        "outputLocation": "",
+        "run": "npm run start"
+      }
+    }
+  }
