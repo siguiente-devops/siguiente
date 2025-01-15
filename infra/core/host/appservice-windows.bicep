@@ -1,6 +1,6 @@
 @description('Web app name.')
 @minLength(2)
-param webAppName string = 'webApp-${uniqueString(resourceGroup().id)}'
+param webAppName string
 
 @description('Location for all resources.')
 param location string = resourceGroup().location
@@ -37,7 +37,6 @@ param language string = '.net'
 @description('Optional Git Repo URL, if empty a \'hello world\' app will be deploy from the Azure-Samples repo')
 param repoUrl string = ''
 
-var appServicePlanName = 'AppServicePlan-${webAppName}'
 var gitRepoReference = {
   '.net': 'https://github.com/Azure-Samples/app-service-web-dotnet-get-started'
   node: 'https://github.com/Azure-Samples/nodejs-docs-hello-world'
@@ -93,6 +92,6 @@ resource gitsource 'Microsoft.Web/sites/sourcecontrols@2022-03-01' = {
   properties: {
     repoUrl: gitRepoUrl
     branch: 'main'
-    isManualIntegration: true
+    isManualIntegration: false
   }
 }

@@ -29,6 +29,7 @@ jobs:
       - name: Provision Infrastructure
         run: azd provision --no-prompt
         env:
+          GITHUB_REPO: ${{ github.server_url }}/${{ github.repository }}
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
           AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
       - name: Deploy Application

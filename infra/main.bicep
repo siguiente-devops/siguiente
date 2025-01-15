@@ -2,6 +2,8 @@ metadata description = 'Provisions resources for a web application that uses Azu
 
 targetScope = 'resourceGroup'
 
+param githubRepo string
+
 @minLength(1)
 @maxLength(64)
 @description('Name of the environment that can be used as part of naming resource convention.')
@@ -20,7 +22,7 @@ param serviceName string = 'web'
 var resourceToken = toLower(uniqueString(resourceGroup().id, environmentName, location))
 var tags = {
   'azd-env-name': environmentName
-  repo: 'https://github.com/azure-samples/cosmos-db-nosql-python-quickstart'
+  repo: githubRepo
 }
 
 resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
@@ -110,6 +112,7 @@ module applicationInsights 'br/public:avm/res/insights/component:0.4.0' = {
 module webapp 'core/host/appservice-windows.bicep' = {
   name: 'web'
   params: {
+    repoUrl: githubRepo
     webAppName: '${serviceName}-${resourceToken}'
     tags: union(tags, { 'azd-service-name': serviceName })
     msi: msi.id
