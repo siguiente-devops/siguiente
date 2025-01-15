@@ -85,13 +85,3 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
     httpsOnly: true
   }
 }
-
-resource gitsource 'Microsoft.Web/sites/sourcecontrols@2022-03-01' = {
-  parent: webApp
-  name: 'web'
-  properties: {
-    repoUrl: gitRepoUrl
-    branch: 'main'
-    isManualIntegration: false
-  }
-}
