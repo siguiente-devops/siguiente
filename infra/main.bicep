@@ -101,7 +101,7 @@ module applicationInsights 'br/public:avm/res/insights/component:0.4.0' = {
 }
 
 module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
-  name: 'staticWebApp'
+  name: 'web'
   params: {
     // Required parameters
     name: 'swa-${resourceToken}'
@@ -114,6 +114,7 @@ module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
         msi.id
       ]
     }
+    provider: 'Custom'
     sku: 'Standard'
     stagingEnvironmentPolicy: 'Enabled'
     tags: union(tags, { 'azd-service-name': 'web' })
