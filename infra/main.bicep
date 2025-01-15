@@ -13,9 +13,6 @@ param environmentName string
 @description('Primary location for all resources.')
 param location string
 
-@description('Id of the principal to assign database and application roles.')
-param deploymentUserPrincipalId string = ''
-
 // serviceName is used as value for the tag (azd-service-name) azd uses to identify deployment host
 param serviceName string = 'web'
 
@@ -66,12 +63,9 @@ module cosmosDbAccount 'br/public:avm/res/document-db/database-account:0.8.1' = 
         ]
       }
     ]
-    sqlRoleAssignmentsPrincipalIds: union(
-      [
+    sqlRoleAssignmentsPrincipalIds: [
         msi.properties.principalId
-      ],
-      !empty(deploymentUserPrincipalId) ? [deploymentUserPrincipalId] : []
-    )
+    ]
     sqlDatabases: [
       {
         name: databaseName
