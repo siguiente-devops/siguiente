@@ -6,7 +6,6 @@ metadata:
 services:
   web:
     project: ./src
-    dist: .next
     language: js
     host: staticwebapp
     hooks:
