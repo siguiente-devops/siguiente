@@ -13,9 +13,6 @@ param environmentName string
 @description('Primary location for all resources.')
 param location string
 
-// serviceName is used as value for the tag (azd-service-name) azd uses to identify deployment host
-param serviceName string = 'web'
-
 var resourceToken = toLower(uniqueString(resourceGroup().id, environmentName, location))
 var tags = {
   'azd-env-name': environmentName
@@ -103,15 +100,23 @@ module applicationInsights 'br/public:avm/res/insights/component:0.4.0' = {
   }
 }
 
-module webapp 'core/host/appservice-windows.bicep' = {
-  name: 'web'
+module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
+  name: 'staticWebApp'
   params: {
-    repoUrl: githubRepo
-    webAppName: '${serviceName}-${resourceToken}'
-    tags: union(tags, { 'azd-service-name': serviceName })
-    msi: msi.id
-    sku: 'B1'
-    language: 'node'
+    // Required parameters
+    name: 'swa-${resourceToken}'
+    // Non-required parameters
+    allowConfigFileUpdates: false
+    location: 'centralus'
+    managedIdentities: {
+      systemAssigned: true
+      userAssignedResourceIds: [
+        msi.id
+      ]
+    }
+    sku: 'Standard'
+    stagingEnvironmentPolicy: 'Enabled'
+    tags: union(tags, { 'azd-service-name': 'web' })
   }
 }
 
