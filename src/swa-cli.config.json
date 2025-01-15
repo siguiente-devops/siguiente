@@ -5,6 +5,7 @@
         "appLocation": "./",
         "apiLocation": "",
         "outputLocation": "",
+        "appBuildCommand": "npm run next build",
         "run": "npm run start"
       }
     }
