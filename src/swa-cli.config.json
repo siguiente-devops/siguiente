@@ -7,7 +7,7 @@
       "apiLocation": "",
       "outputLocation": "",
       "host": "http://localhost:3000",
-      "appBuildCommand": "npm run build",
+      "appBuildCommand": "npm i && npm run build",
       "run": "npm run dev",
       "appDevserverUrl": "http://localhost:3000",
       "appName": "swa-5yinai7kv2izy",
