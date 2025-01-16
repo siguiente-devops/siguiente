@@ -29,6 +29,10 @@ services:
             CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME=\"$CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME\"
             NEXT_PUBLIC_AZ_APP_INSIGHTS_INSTRUMENTATION_KEY=\"$AZ_APP_INSIGHTS_INSTRUMENTATION_KEY\"
             " > ./src/.env
+      predeploy:
+        posix:
+          shell: sh
+          run: 'npm install'
       postdeploy:
         windows:
           shell: pwsh
