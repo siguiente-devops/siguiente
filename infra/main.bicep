@@ -116,6 +116,7 @@ module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
       ]
     }
     repositoryUrl: githubRepo
+    branch: 'main'
     provider: 'Custom'
     sku: 'Standard'
     stagingEnvironmentPolicy: 'Enabled'
