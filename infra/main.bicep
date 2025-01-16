@@ -25,11 +25,6 @@ resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   location: location
 }
 
-resource webappDeployIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
-  name: 'swa-deployment-identity'
-  location: location
-}
-
 var databaseName = 'ai'
 var containerName = 'texts'
 
