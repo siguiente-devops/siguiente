@@ -9,8 +9,11 @@
     "next.config.ts"
   ],
   "scripts": {
+    "deploy": "swa deploy",
+    "deploy:dev" :"npm run deploy -- --env dev",
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:swa": "swa build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -21,6 +24,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@azure/static-web-apps-cli": "^2.0.2",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",

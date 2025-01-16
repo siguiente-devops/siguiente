@@ -3,6 +3,7 @@ metadata description = 'Provisions resources for a web application that uses Azu
 targetScope = 'resourceGroup'
 
 param githubRepo string
+param githubPrincipalId string
 
 @minLength(1)
 @maxLength(64)
@@ -21,6 +22,11 @@ var tags = {
 
 resource msi 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   name: 'msi'
+  location: location
+}
+
+resource webappDeployIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
+  name: 'swa-deployment-identity'
   location: location
 }
 
@@ -111,15 +117,20 @@ module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
     managedIdentities: {
       systemAssigned: true
       userAssignedResourceIds: [
+        githubPrincipalId
         msi.id
       ]
     }
+    repositoryUrl: githubRepo
     provider: 'Custom'
     sku: 'Standard'
     stagingEnvironmentPolicy: 'Enabled'
     tags: union(tags, { 'azd-service-name': 'web' })
   }
 }
+
+// Static webapp outputs
+output AZ_ORIGIN string = staticSite.outputs.defaultHostname
 
 // Azure Cosmos DB for Table outputs
 output CONFIGURATION__AZURECOSMOSDB__ENDPOINT string = cosmosDbAccount.outputs.endpoint
