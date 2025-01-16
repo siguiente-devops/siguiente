@@ -3,7 +3,6 @@ metadata description = 'Provisions resources for a web application that uses Azu
 targetScope = 'resourceGroup'
 
 param githubRepo string
-param githubPrincipalId string
 
 @minLength(1)
 @maxLength(64)
