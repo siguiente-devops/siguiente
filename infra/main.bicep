@@ -114,6 +114,9 @@ module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
         msi.id
       ]
     }
+    appSettings: {
+      CONFIGURATION__AZURECOSMOSDB__ENDPOINT: cosmosDbAccount.outputs.endpoint
+    }
     repositoryUrl: githubRepo
     branch: 'main'
     provider: 'Custom'

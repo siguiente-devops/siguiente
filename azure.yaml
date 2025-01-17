@@ -8,37 +8,5 @@ services:
     project: ./src
     language: js
     host: staticwebapp
-    hooks:
-      prepackage:
-        windows:
-          shell: pwsh
-          run: |
-            echo "
-            AZ_ORIGIN=""$env:AZ_ORIGIN""
-            CONFIGURATION__AZURECOSMOSDB__ENDPOINT=""$env:CONFIGURATION__AZURECOSMOSDB__ENDPOINT""
-            CONFIGURATION__AZURECOSMOSDB__DATABASENAME=""$env:CONFIGURATION__AZURECOSMOSDB__DATABASENAME""
-            CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME=""$env:CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME""
-            " > ./src/.env
-        posix:
-          shell: sh
-          run: |
-            echo "
-            AZ_ORIGIN=\"$AZ_ORIGIN\"
-            CONFIGURATION__AZURECOSMOSDB__ENDPOINT=\"$CONFIGURATION__AZURECOSMOSDB__ENDPOINT\"
-            CONFIGURATION__AZURECOSMOSDB__DATABASENAME=\"$CONFIGURATION__AZURECOSMOSDB__DATABASENAME\"
-            CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME=\"$CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME\"
-            NEXT_PUBLIC_AZ_APP_INSIGHTS_INSTRUMENTATION_KEY=\"$AZ_APP_INSIGHTS_INSTRUMENTATION_KEY\"
-            " > ./src/.env
-      predeploy:
-        posix:
-          shell: sh
-          run: 'npm install'
-      postdeploy:
-        windows:
-          shell: pwsh
-          run: 'rm .env.local'
-        posix:
-          shell: sh
-          run: 'rm .env.local'
 pipeline:
   provider: github
