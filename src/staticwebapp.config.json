@@ -1,5 +1,18 @@
 {
-    "globalHeaders": {
-      "Access-Control-Allow-Methods": "POST, GET"
+  "routes": [
+    {
+      "route": "/index.html",
+      "redirect": "/"
+    },
+    {
+      "route": "/",
+      "rewrite": "/api/server"
     }
+  ],
+  "platform": {
+    "apiRuntime": "node:18"
+  },
+  "navigationFallback": {
+    "rewrite": "/api/server"
+  }
 }

@@ -1,17 +1,15 @@
 {
-  "configurations": {
-    "siguiente": {
-      "apiLanguage": "node",
-      "apiVersion": "20",
-      "appLocation": ".",
-      "apiLocation": "",
-      "outputLocation": "",
-      "host": "http://localhost:3000",
-      "appBuildCommand": "npm i && npm run build",
-      "run": "npm run dev",
-      "appDevserverUrl": "http://localhost:3000",
-      "appName": "swa-5yinai7kv2izy",
-      "resourceGroup": "ai-rg-prod"
+    "configurations": {
+      "siguiente": {
+        "apiLanguage": "node",
+        "apiVersion": "20",
+        "appLocation": ".output",
+        "apiLocation": "server",
+        "outputLocation": "public",
+        "host": "http://localhost:3000",
+        "appBuildCommand": "npm i && npm run build",
+        "run": "npm start",
+        "appDevserverUrl": "http://localhost:3000"
+      }
     }
   }
-}
