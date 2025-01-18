@@ -42,26 +42,33 @@ resource functions 'Microsoft.Web/sites@2023-12-01' = {
   }
   properties: {
     serverFarmId: appServicePlanId
-    functionAppConfig: {
-      deployment: {
-        storage: {
-          type: 'blobContainer'
-          value: '${stg.properties.primaryEndpoints.blob}deploymentpackage'
-          authentication: {
-            type: identityType == 'SystemAssigned' ? 'SystemAssignedIdentity' : 'UserAssignedIdentity'
-            userAssignedIdentityResourceId: identityType == 'UserAssigned' ? identityId : '' 
-          }
-        }
-      }
-      scaleAndConcurrency: {
-        instanceMemoryMB: instanceMemoryMB
-        maximumInstanceCount: maximumInstanceCount
-      }
-      runtime: {
-        name: runtimeName
-        version: runtimeVersion
-      }
+    functionAppConfig: null
+    reserved: false
+    isXenon: false
+    hyperV: false
+    dnsConfiguration: {}
+    vnetRouteAllEnabled: false
+    vnetImagePullEnabled: false
+    vnetContentShareEnabled: false
+    siteConfig: {
+        numberOfWorkers: 1
+        acrUseManagedIdentityCreds: false
+        alwaysOn: false
+        http20Enabled: false
+        functionAppScaleLimit: 200
+        minimumElasticInstanceCount: 0
     }
+    scmSiteAlsoStopped: false
+    clientAffinityEnabled: false
+    clientCertEnabled: false
+    clientCertMode: 'Required'
+    hostNamesDisabled: false
+    vnetBackupRestoreEnabled: false
+    containerSize: 1536
+    dailyMemoryTimeQuota: 0
+    httpsOnly: false
+    redundancyMode: 'None'
+    storageAccountRequired: false
   }
 
   resource configAppSettings 'config' = {
