@@ -13,7 +13,7 @@ param environmentName string
 @description('Primary location for all resources.')
 param location string
 
-var resourceToken = toLower(uniqueString(resourceGroup().id, environmentName, location))
+var resourceToken = '5yinai7kv2izy'
 var tags = {
   'azd-env-name': environmentName
   repo: githubRepo
@@ -121,9 +121,10 @@ module appservicePlan 'core/host/appserviceplan.bicep' = {
   params: {
     name: 'appserviceplan-${resourceToken}'
     location: location
+    kind: 'functionapp'
     sku: {
-      name: 'FC1'
-      tier: 'B1'
+      name: 'Y1'
+      tier: 'Dynamic'
     }
   }
 }
