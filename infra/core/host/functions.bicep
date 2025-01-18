@@ -63,7 +63,6 @@ resource functions 'Microsoft.Web/sites@2023-12-01' = {
         version: runtimeVersion
       }
     }
-    virtualNetworkSubnetId: virtualNetworkSubnetId
   }
 
   resource configAppSettings 'config' = {
