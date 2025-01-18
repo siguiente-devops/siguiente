@@ -11,6 +11,26 @@ function cosmosdb() {
                     const { container } = await database.containers.createIfNotExists({ id, partitionKey: def })
 
                     return {
+                        // https://learn.microsoft.com/en-us/rest/api/cosmos-db/access-control-on-cosmosdb-resources
+                        // getAuthorizationTokenUsingMasterKey(verb: string, resourceType: string, resourceId: string, date: string, masterKey: string) {  
+                        //     const key = new Buffer(masterKey, "base64");  
+                          
+                        //     const text = (verb || "").toLowerCase() + "\n" +   
+                        //                (resourceType || "").toLowerCase() + "\n" +   
+                        //                (resourceId || "") + "\n" +   
+                        //                date.toLowerCase() + "\n" +   
+                        //                "" + "\n";  
+                          
+                        //     const body = new Buffer(text, "utf8");
+                        //     const signature = crypto.createHmac("sha256", key).update(body).digest("base64");  
+                          
+                        //     const MasterToken = "master";  
+                          
+                        //     const TokenVersion = "1.0";  
+                          
+                        //     return encodeURIComponent("type=" + MasterToken + "&ver=" + TokenVersion + "&sig=" + signature);  
+                        // },
+
                         async item<T>(id: string, ...key: string[]) {
                             return (await container.item(id, key).read<T>()).resource
                         },

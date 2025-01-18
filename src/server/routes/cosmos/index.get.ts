@@ -1,6 +1,6 @@
-import { createChunk, getTextDocs } from "~~/db/ai/docs"
-import { chunk } from "~~/db/def/textChunk"
-import { LanguageISO } from "~~/db/types"
+import { createChunk, getTextDocs } from "~/db/ai/docs"
+import { chunk } from "~/db/def/textChunk"
+import { LanguageISO } from "~/db/types"
 
 export default defineEventHandler(async () => {
     // const es = chunk("capybara-test5", LanguageISO.Español, "Aunque 'Friends' ofrece una ventana a la vida y la cultura de la ciudad de Nueva York durante la década de 1990 y principios de los 2000, es importante señalar que presenta una versión algo idealizada y simplificada de la realidad de la ciudad.\n\nEn primer lugar, las situaciones de vida de los personajes no son representativas de la experiencia típica de un neoyorquino. Los apartamentos espaciosos y bien amueblados en los que viven los personajes, especialmente el de Monica, están muy por encima de lo que la mayoría de los jóvenes profesionales podrían permitirse en Manhattan, uno de los mercados inmobiliarios más caros del mundo. En realidad, muchas personas en sus profesiones probablemente vivirían en apartamentos mucho más pequeños o tendrían varios compañeros de piso.\n\nEn segundo lugar, los personajes parecen tener mucho tiempo libre a pesar de sus trabajos a tiempo completo. A menudo se les ve pasando el rato en pleno día en Central Perk, su cafetería local. En realidad, la naturaleza exigente del trabajo en la ciudad de Nueva York podría no permitir tanto tiempo de ocio.\n\nEn tercer lugar, la serie ha sido criticada por su falta de diversidad. Nueva York es conocida por su multiculturalismo, sin embargo, el elenco principal de 'Friends' es predominantemente blanco, lo que no refleja con precisión la diversidad demográfica de la ciudad.\n\nPor último, las luchas asociadas con vivir en una gran ciudad, como el crimen, la pobreza y la desigualdad social, están en gran parte ausentes en la serie. 'Friends' se centra más en las relaciones personales y las luchas profesionales, ofreciendo una visión algo edulcorada de la vida en la ciudad de Nueva York.\n\nSin embargo, es importante recordar que 'Friends' es una comedia de situación y no un documental, y su objetivo principal es entretener en lugar de ofrecer una representación realista de la vida en la ciudad de Nueva York.")
@@ -8,5 +8,5 @@ export default defineEventHandler(async () => {
 
     // const res = await Promise.all([createChunk(en), createChunk(es)])
 
-    return Response.json({ resource: await getTextDocs("capybara-test5", LanguageISO.Español ) })
+    return Response.json({ resource: await getTextDocs("capybara-test5", LanguageISO.English ) })
 })
