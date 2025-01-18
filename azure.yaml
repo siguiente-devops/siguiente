@@ -4,7 +4,7 @@ name: webapp
 metadata:
   template: webapp
 services:
-  azfn:
+  functionsApp:
     project: ./fn
     language: ts
     host: function

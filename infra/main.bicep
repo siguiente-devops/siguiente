@@ -116,12 +116,23 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.15.0' = {
   }
 }
 
+module appservicePlan 'core/host/appserviceplan.bicep' = {
+  name: 'appserviceplan'
+  params: {
+    name: 'appserviceplan-${resourceToken}'
+    location: location
+    sku: {
+      name: 'FlexConsumption'
+    }
+  }
+}
+
 module processor './core/host/functions.bicep' = {
-  name: 'functions-app'
+  name: 'functionsApp'
   params: {
     name: 'fnmx-${resourceToken}'
     location: location
-    tags: union(tags, { 'azd-service-name': 'fnmx' })
+    tags: union(tags, { 'azd-service-name': 'functionsApp' })
     identityType: 'UserAssigned'
     identityId: msi.id
     appSettings: {
@@ -129,7 +140,7 @@ module processor './core/host/functions.bicep' = {
       APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsights.outputs.connectionString
     }
     applicationInsightsName: applicationInsights.outputs.name
-    appServicePlanId: 'Default1bo'
+    appServicePlanId: appservicePlan.outputs.id
     runtimeName: 'node'
     runtimeVersion: '20'
     storageAccountName: storageAccount.outputs.name
