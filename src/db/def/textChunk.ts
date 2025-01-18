@@ -1,4 +1,3 @@
-import { cosmosContainer } from ".."
 import { Doc, DocumentFormat, LanguageISO } from "../types"
 
 export interface TextDocumentBody {
@@ -16,8 +15,4 @@ export function chunk<I extends LanguageISO>(documentId: string, languageIso: I,
             text
         }
     }
-}
-
-export function createText(chunk: TextChunk<any>) {
-    return cosmosContainer("Documents", (db) => db.createDocument(chunk))
 }

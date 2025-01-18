@@ -1,30 +1,32 @@
-import { CosmosClient, Container, QueryIterator, Database, Resource } from "@azure/cosmos"
+import { CosmosClient, Container, PartitionKeyDefinition } from "@azure/cosmos"
 
-const instance = new CosmosClient(process.env.NODE_ENV === "development" ? process.env.CONFIGURATION__AZURECOSMOSDB__ENDPOINT__LOCAL : process.env.CONFIGURATION__AZURECOSMOSDB__ENDPOINT)
-
-async function db(id: string) {
-    const response = await instance.databases.createIfNotExists({ id })
-    return response.database
-}
-
-export function createContainerInterface(container: Container) {
+function cosmosdb() {
+    const instance = new CosmosClient(process.env.NODE_ENV === "development" ? process.env.CONFIGURATION__AZURECOSMOSDB__ENDPOINT__LOCAL : process.env.CONFIGURATION__AZURECOSMOSDB__ENDPOINT)
     return {
-        async item<T>(id: string, ...key: string[]) {
-            return container.item(id, key).read<T>()
-        },
+        async db(id: string) {
+            const { database } = await instance.databases.createIfNotExists({ id })
 
-        async createDocument<T>(document: T) {
-            return (await container.items.create(document)).resource
-        },
+            return {
+                async container(id: string, def: PartitionKeyDefinition) {
+                    const { container } = await database.containers.createIfNotExists({ id, partitionKey: def })
 
-        async sql<T>(query: string, ...partitionKey: string[]): Promise<QueryIterator<T>> {
-            return container.items.query(query, { partitionKey })
+                    return {
+                        async item<T>(id: string, ...key: string[]) {
+                            return (await container.item(id, key).read<T>()).resource
+                        },
+                
+                        async createDocument<T>(document: T) {
+                            return (await container.items.upsert(document)).resource as T
+                        },
+
+                        async sql<T>(query: string, ...partitionKey: string[]) {
+                            return container.items.query(query, { partitionKey }).fetchAll()
+                        }
+                    }
+                }
+            }
         }
-    }
+    }    
 }
 
-export const cosmosContainer = async <R>(id: string, fn: (c: ReturnType<typeof createContainerInterface>) => R) => {
-    const { container } = await db("datos").then(({ containers }) => containers.createIfNotExists({ id }))
-
-    return fn(createContainerInterface(container))
-}
+export default cosmosdb()
