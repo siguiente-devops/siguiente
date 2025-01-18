@@ -119,11 +119,12 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.15.0' = {
 module appservicePlan 'core/host/appserviceplan.bicep' = {
   name: 'appserviceplan'
   params: {
-    name: 'appserviceplan-${resourceToken}'
+    name: 'ASP-fnmx-d7a2'
     location: location
     kind: 'functionapp'
     sku: {
       name: 'Y1'
+      size: 'Y1'
       tier: 'Dynamic'
     }
   }
