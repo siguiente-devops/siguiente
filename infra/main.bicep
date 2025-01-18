@@ -106,6 +106,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.15.0' = {
     // Required parameters
     name: 'azfnstore${resourceToken}'
     // Non-required parameters
+    skuName: 'Standard_LRS'
     allowBlobPublicAccess: false
     location: location
     networkAcls: {
