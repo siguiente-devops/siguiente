@@ -123,7 +123,7 @@ module appservicePlan 'core/host/appserviceplan.bicep' = {
     location: location
     sku: {
       name: 'FC1'
-      tier: 'FlexConsumption'
+      tier: 'P0V3'
     }
   }
 }
