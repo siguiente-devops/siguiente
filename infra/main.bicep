@@ -117,9 +117,9 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.15.0' = {
 }
 
 module processor './core/host/functions.bicep' = {
-  name: 'azfn'
+  name: 'functions-app'
   params: {
-    name: 'fnmx'
+    name: 'fnmx-${resourceToken}'
     location: location
     tags: union(tags, { 'azd-service-name': 'fnmx' })
     identityType: 'UserAssigned'

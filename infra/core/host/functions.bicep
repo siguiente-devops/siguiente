@@ -6,7 +6,6 @@ param tags object = {}
 param applicationInsightsName string = ''
 param appServicePlanId string = 'FlexConsumption'
 param storageAccountName string
-param virtualNetworkSubnetId string = ''
 @allowed(['SystemAssigned', 'UserAssigned'])
 param identityType string
 @description('User assigned identity name')
