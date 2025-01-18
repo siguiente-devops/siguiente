@@ -122,7 +122,8 @@ module appservicePlan 'core/host/appserviceplan.bicep' = {
     name: 'appserviceplan-${resourceToken}'
     location: location
     sku: {
-      name: 'FlexConsumption'
+      name: 'FC1'
+      tier: 'FlexConsumption'
     }
   }
 }
