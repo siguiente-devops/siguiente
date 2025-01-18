@@ -77,17 +77,12 @@ resource functions 'Microsoft.Web/sites@2023-12-01' = {
       {
         AzureWebJobsStorage__accountName: stg.name
         AzureWebJobsStorage__credential : 'managedidentity'
-        APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.properties.ConnectionString
         FUNCTIONS_EXTENSION_VERSION: '~4'
         FUNCTIONS_WORKER_RUNTIME: 'node'
         WEBSITE_NODE_DEFAULT_VERSION: '~22'
         WEBSITE_RUN_FROM_PACKAGE: '1'
       })
   }
-}
-
-resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing = if (!empty(applicationInsightsName)) {
-  name: applicationInsightsName
 }
 
 output name string = functions.name

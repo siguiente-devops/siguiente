@@ -138,10 +138,6 @@ module processor './core/host/functions.bicep' = {
     tags: union(tags, { 'azd-service-name': 'functionsApp' })
     identityType: 'UserAssigned'
     identityId: msi.id
-    appSettings: {
-      AzureWebJobsStorage__clientId : msi.properties.clientId
-      APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsights.outputs.connectionString
-    }
     applicationInsightsName: applicationInsights.outputs.name
     appServicePlanId: appservicePlan.outputs.id
     runtimeName: 'node'
