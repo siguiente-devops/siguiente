@@ -100,6 +100,21 @@ module applicationInsights 'br/public:avm/res/insights/component:0.4.0' = {
   }
 }
 
+module storageAccount 'br/public:avm/res/storage/storage-account:0.15.0' = {
+  name: 'storageAccountDeployment'
+  params: {
+    // Required parameters
+    name: 'azfnstore${resourceToken}'
+    // Non-required parameters
+    allowBlobPublicAccess: false
+    location: location
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Deny'
+    }
+  }
+}
+
 module processor './core/host/functions.bicep' = {
   name: 'azfn'
   params: {
@@ -116,7 +131,7 @@ module processor './core/host/functions.bicep' = {
     appServicePlanId: 'ASP-fnmx-d7a2'
     runtimeName: 'node'
     runtimeVersion: '20'
-    storageAccountName: 'fnmx'
+    storageAccountName: storageAccount.outputs.name
   }
 }
 
