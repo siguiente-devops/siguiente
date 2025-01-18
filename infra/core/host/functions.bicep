@@ -75,6 +75,7 @@ resource functions 'Microsoft.Web/sites@2023-12-01' = {
     name: 'appsettings'
     properties: union(appSettings,
       {
+        AzureWebJobsStorage: storageAccountName
         AzureWebJobsStorage__accountName: stg.name
         AzureWebJobsStorage__credential : 'managedidentity'
         FUNCTIONS_EXTENSION_VERSION: '~4'
