@@ -129,7 +129,7 @@ module processor './core/host/functions.bicep' = {
       APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsights.outputs.connectionString
     }
     applicationInsightsName: applicationInsights.outputs.name
-    appServicePlanId: 'ASP-fnmx-d7a2'
+    appServicePlanId: 'Default1bo'
     runtimeName: 'node'
     runtimeVersion: '20'
     storageAccountName: storageAccount.outputs.name
