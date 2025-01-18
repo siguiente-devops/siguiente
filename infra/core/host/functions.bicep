@@ -4,7 +4,7 @@ param tags object = {}
 
 // Reference Properties
 param applicationInsightsName string = ''
-param appServicePlanId string
+param appServicePlanId string = 'FlexConsumption'
 param storageAccountName string
 param virtualNetworkSubnetId string = ''
 @allowed(['SystemAssigned', 'UserAssigned'])
