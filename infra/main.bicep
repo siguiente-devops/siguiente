@@ -100,34 +100,28 @@ module applicationInsights 'br/public:avm/res/insights/component:0.4.0' = {
   }
 }
 
-module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
-  name: 'web'
+module processor './core/host/functions.bicep' = {
+  name: 'azfn'
   params: {
-    // Required parameters
-    name: 'swa-${resourceToken}'
-    // Non-required parameters
-    allowConfigFileUpdates: false
-    location: 'centralus'
-    managedIdentities: {
-      systemAssigned: true
-      userAssignedResourceIds: [
-        msi.id
-      ]
-    }
+    name: 'fnmx'
+    location: location
+    tags: union(tags, { 'azd-service-name': 'fnmx' })
+    identityType: 'UserAssigned'
+    identityId: msi.id
     appSettings: {
-      CONFIGURATION__AZURECOSMOSDB__ENDPOINT: cosmosDbAccount.outputs.endpoint
+      AzureWebJobsStorage__clientId : msi.properties.clientId
+      APPLICATIONINSIGHTS_AUTHENTICATION_STRING: applicationInsights.outputs.connectionString
     }
-    repositoryUrl: githubRepo
-    branch: 'main'
-    provider: 'Custom'
-    sku: 'Standard'
-    stagingEnvironmentPolicy: 'Enabled'
-    tags: union(tags, { 'azd-service-name': 'web' })
+    applicationInsightsName: applicationInsights.outputs.name
+    appServicePlanId: 'ASP-fnmx-d7a2'
+    runtimeName: 'node'
+    runtimeVersion: '20'
+    storageAccountName: 'fnmx'
   }
 }
 
 // Static webapp outputs
-output AZ_ORIGIN string = staticSite.outputs.defaultHostname
+output AZ_ORIGIN string = processor.outputs.uri
 
 // Azure Cosmos DB for Table outputs
 output CONFIGURATION__AZURECOSMOSDB__ENDPOINT string = cosmosDbAccount.outputs.endpoint
