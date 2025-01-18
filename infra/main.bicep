@@ -13,7 +13,7 @@ param environmentName string
 @description('Primary location for all resources.')
 param location string
 
-var resourceToken = toLower(uniqueString(resourceGroup().id, environmentName, location))
+var resourceToken = '5yinai7kv2izy'
 var tags = {
   'azd-env-name': environmentName
   repo: githubRepo
@@ -100,34 +100,54 @@ module applicationInsights 'br/public:avm/res/insights/component:0.4.0' = {
   }
 }
 
-module staticSite 'br/public:avm/res/web/static-site:0.6.0' = {
-  name: 'web'
+module storageAccount 'br/public:avm/res/storage/storage-account:0.15.0' = {
+  name: 'storageAccountDeployment'
   params: {
     // Required parameters
-    name: 'swa-${resourceToken}'
+    name: 'azfnstore${resourceToken}'
     // Non-required parameters
-    allowConfigFileUpdates: false
-    location: 'centralus'
-    managedIdentities: {
-      systemAssigned: true
-      userAssignedResourceIds: [
-        msi.id
-      ]
+    skuName: 'Standard_LRS'
+    allowBlobPublicAccess: false
+    location: location
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Deny'
     }
-    appSettings: {
-      CONFIGURATION__AZURECOSMOSDB__ENDPOINT: cosmosDbAccount.outputs.endpoint
+  }
+}
+
+module appservicePlan 'core/host/appserviceplan.bicep' = {
+  name: 'appserviceplan'
+  params: {
+    name: 'ASP-fnmx-d7a2'
+    location: location
+    kind: 'functionapp'
+    sku: {
+      name: 'Y1'
+      size: 'Y1'
+      tier: 'Dynamic'
     }
-    repositoryUrl: githubRepo
-    branch: 'main'
-    provider: 'Custom'
-    sku: 'Standard'
-    stagingEnvironmentPolicy: 'Enabled'
-    tags: union(tags, { 'azd-service-name': 'web' })
+  }
+}
+
+module processor './core/host/functions.bicep' = {
+  name: 'functionsApp'
+  params: {
+    name: 'fnmx-${resourceToken}'
+    location: location
+    tags: union(tags, { 'azd-service-name': 'functionsApp' })
+    identityType: 'UserAssigned'
+    identityId: msi.id
+    applicationInsightsName: applicationInsights.outputs.name
+    appServicePlanId: appservicePlan.outputs.id
+    runtimeName: 'node'
+    runtimeVersion: '20'
+    storageAccountName: storageAccount.outputs.name
   }
 }
 
 // Static webapp outputs
-output AZ_ORIGIN string = staticSite.outputs.defaultHostname
+output AZ_ORIGIN string = processor.outputs.uri
 
 // Azure Cosmos DB for Table outputs
 output CONFIGURATION__AZURECOSMOSDB__ENDPOINT string = cosmosDbAccount.outputs.endpoint

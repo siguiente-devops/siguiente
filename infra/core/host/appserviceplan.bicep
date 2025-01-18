@@ -3,7 +3,7 @@ param location string = resourceGroup().location
 param tags object = {}
 
 param kind string = ''
-param reserved bool = true
+param reserved bool = false
 param sku object
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
@@ -13,7 +13,16 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   sku: sku
   kind: kind
   properties: {
+    perSiteScaling: false
+    elasticScaleEnabled: false
+    maximumElasticWorkerCount: 1
+    isSpot: false
     reserved: reserved
+    isXenon: false
+    hyperV: false
+    targetWorkerCount: 0
+    targetWorkerSizeId: 0
+    zoneRedundant: false
   }
 }
 
